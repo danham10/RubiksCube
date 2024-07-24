@@ -163,7 +163,7 @@ internal class Cube
             Cubies.Remove(originalCubie);
             Cubies.Add(transformedCubie);
 
-            Console.WriteLine($"Cubie {transformedCubie.Id} from {originalCubie} to {transformedCubie}");
+            Console.WriteLine($"Cubie {originalCubie} becomes {transformedCubie}");
         }
 
         return this;

@@ -22,6 +22,6 @@ internal class Cubie : ICloneable
 
     public override string ToString()
     {
-        return $"ColourFaces: {string.Join(", ", CubieFaces.Select(cv => cv.ToString()))}, Vertex: {Coordinate}";
+        return $"{string.Join(", ", CubieFaces.Select(cv => cv.ToString()))}, Coord: {Coordinate}";
     }
 }
