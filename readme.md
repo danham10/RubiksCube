@@ -14,6 +14,7 @@ Features:
 
 Improvements:
 - Add logging instead of console.write
+- Add exception handling
 - Add tests
 - Add a configuration setting to allow N x N cubes. The initCube method would need to be updated to allow for this.
 - Add a stopwatch 
