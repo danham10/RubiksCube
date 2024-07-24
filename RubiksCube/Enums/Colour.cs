@@ -1,6 +1,6 @@
 ﻿namespace RubiksCube;
 
-internal enum Colour
+public enum Colour
 {
     White,
     Yellow,

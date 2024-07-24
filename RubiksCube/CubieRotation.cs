@@ -5,9 +5,17 @@ internal class CubieRotation
     public static Face[] ZAxis = [Face.Up, Face.Right, Face.Down, Face.Left];
     public static Face[] YAxis = [Face.Front, Face.Left, Face.Back, Face.Right];
 
-    public static Face Rotate(Face cubieFace, Face colourFace, Rotation rotation)
+
+    /// <summary>
+    /// Rotate the cubie face based on the colour face and rotation
+    /// </summary>
+    /// <param name="cubeFace">Face of the parent cube</param>
+    /// <param name="colourFace">A face of the cubie</param>
+    /// <param name="rotation"></param>
+    /// <returns></returns>
+    public static Face Rotate(Face cubeFace, Face colourFace, Rotation rotation)
     {
-        switch (cubieFace)
+        switch (cubeFace)
         {
             case Face.Up:
             case Face.Down:

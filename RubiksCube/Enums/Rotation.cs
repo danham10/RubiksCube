@@ -1,6 +1,6 @@
 ﻿namespace RubiksCube;
 
-internal enum Rotation
+public enum Rotation
 {
     Clockwise,
     AntiClockwise

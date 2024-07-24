@@ -1,6 +1,6 @@
 ﻿namespace RubiksCube;
 
-internal class Cubie : ICloneable
+public class Cubie : ICloneable
 {
     public Guid Id { get; private set; } = Guid.NewGuid();
     public List<ColourFace> CubieFaces;

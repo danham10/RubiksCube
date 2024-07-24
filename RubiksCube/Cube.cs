@@ -1,8 +1,15 @@
-﻿namespace RubiksCube;
+﻿using System.Diagnostics;
 
-internal class Cube
+namespace RubiksCube;
+
+public class Cube
 {
     public List<Cubie> Cubies;
+
+    /// <summary>
+    /// From a 0 index
+    /// </summary>
+    private const int CubeSize = 2; 
 
     public Cube()
     {
@@ -58,97 +65,33 @@ internal class Cube
         ];
     }
 
+    /// <summary>
+    /// Rotate a face of the cube in the specified direction
+    /// </summary>
+    /// <param name="cubeFace"></param>
+    /// <param name="rotation"></param>
+    /// <returns></returns>
     public Cube Rotate(Face cubeFace, Rotation rotation)
     {
-        Cubie transformingCubie;
         List<Cubie> transformedCubies = [];
-        Rotation normalisedRotation = rotation;
 
-        Console.WriteLine($"Direction {cubeFace} rotating {rotation}");
+        Debug.WriteLine($"Direction {cubeFace} rotating {rotation}");
 
+        Rotation normalisedRotation = NormaliseRotation(cubeFace, rotation);
+        RelocateCubies(cubeFace, transformedCubies, normalisedRotation);
+        RotateCubies(cubeFace, transformedCubies, normalisedRotation);
 
-        switch (cubeFace)
-        {
-            case Face.Down:
-            case Face.Back:
-            case Face.Left:
-                normalisedRotation = rotation == Rotation.Clockwise ? Rotation.AntiClockwise : Rotation.Clockwise;
-                Console.WriteLine($"Direction inverted to {normalisedRotation}");
-            break;
-        }
+        return this;
+    }
 
-        for (int x = 0; x <= 2; x++)
-        {
-            for (int y = 0; y <= 2; y++)
-            {
-                for (int z = 0; z <= 2; z++)
-                {
-                    transformingCubie = SelectCubie(x, y, z);
-
-                    switch (cubeFace)
-                    {
-                        case Face.Up:
-                        case Face.Down:
-                            switch (cubeFace)
-                            {
-                                case Face.Up:
-                                    if (y != 2)
-                                        continue;
-                                    break;
-                                case Face.Down:
-                                    if (y != 0)
-                                        continue;
-                                    break;
-                            }
-
-                            transformingCubie.Coordinate = normalisedRotation == Rotation.Clockwise ?
-                                new Coordinate(transformingCubie.Coordinate.Z, transformingCubie.Coordinate.Y, 2 - transformingCubie.Coordinate.X) :
-                                new Coordinate(2 - transformingCubie.Coordinate.Z, transformingCubie.Coordinate.Y, transformingCubie.Coordinate.X);
-                            break;
-                        case Face.Left:
-                        case Face.Right:
-                            switch (cubeFace)
-                            {
-                                case Face.Left:
-                                    if (x != 0)
-                                        continue;
-                                    break;
-                                case Face.Right:
-                                    if (x != 2)
-                                        continue;
-                                    break;
-                            }
-
-                            transformingCubie.Coordinate = normalisedRotation == Rotation.Clockwise ?
-                                new Coordinate(transformingCubie.Coordinate.X, 2 - transformingCubie.Coordinate.Z, transformingCubie.Coordinate.Y) :
-                                new Coordinate(transformingCubie.Coordinate.X, transformingCubie.Coordinate.Z, 2 - transformingCubie.Coordinate.Y);
-                            break;
-
-                        case Face.Front:
-                        case Face.Back:
-                            switch (cubeFace)
-                            {
-                                case Face.Front:
-                                    if (z != 0)
-                                        continue;
-                                    break;
-                                case Face.Back:
-                                    if (z != 2)
-                                        continue;
-                                    break;
-                            }
-
-                            transformingCubie.Coordinate = normalisedRotation == Rotation.Clockwise ?
-                                new Coordinate(transformingCubie.Coordinate.Y, 2 - transformingCubie.Coordinate.X, transformingCubie.Coordinate.Z) :
-                                new Coordinate(2 - transformingCubie.Coordinate.Y, transformingCubie.Coordinate.X, transformingCubie.Coordinate.Z);
-                            break;
-                    }
-
-                    transformedCubies.Add(transformingCubie);
-                }
-            }
-        }
-
+    /// <summary>
+    /// Rotate the faces of the cubies
+    /// </summary>
+    /// <param name="cubeFace"></param>
+    /// <param name="transformedCubies"></param>
+    /// <param name="normalisedRotation"></param>
+    private void RotateCubies(Face cubeFace, List<Cubie> transformedCubies, Rotation normalisedRotation)
+    {
         foreach (Cubie transformedCubie in transformedCubies)
         {
 
@@ -163,10 +106,92 @@ internal class Cube
             Cubies.Remove(originalCubie);
             Cubies.Add(transformedCubie);
 
-            Console.WriteLine($"Cubie {originalCubie} becomes {transformedCubie}");
+            Debug.WriteLine($"Cubie {originalCubie} becomes {transformedCubie}");
+        }
+    }
+
+    /// <summary>
+    /// Relocate the cubies to their new positions
+    /// </summary>
+    /// <param name="cubeFace"></param>
+    /// <param name="transformedCubies"></param>
+    /// <param name="normalisedRotation"></param>
+    /// <exception cref="Exception"></exception>
+    private void RelocateCubies(Face cubeFace, List<Cubie> transformedCubies, Rotation normalisedRotation)
+    {
+        for (int x = 0; x <= CubeSize; x++)
+        {
+            for (int y = 0; y <= CubeSize; y++)
+            {
+                for (int z = 0; z <= CubeSize; z++)
+                {
+                    Cubie? transformedCubie = SelectCubie(x, y, z);
+                    switch (cubeFace)
+                    {
+                        case Face.Up:
+                        case Face.Down:
+                            switch (cubeFace)
+                            {
+                                case Face.Up:
+                                    if (y != CubeSize)
+                                        continue;
+                                    break;
+                                case Face.Down:
+                                    if (y != 0)
+                                        continue;
+                                    break;
+                            }
+
+                            transformedCubie.Coordinate = normalisedRotation == Rotation.Clockwise ?
+                                new Coordinate(transformedCubie.Coordinate.Z, transformedCubie.Coordinate.Y, CubeSize - transformedCubie.Coordinate.X) :
+                                new Coordinate(CubeSize - transformedCubie.Coordinate.Z, transformedCubie.Coordinate.Y, transformedCubie.Coordinate.X);
+                            break;
+                        case Face.Left:
+                        case Face.Right:
+                            switch (cubeFace)
+                            {
+                                case Face.Left:
+                                    if (x != 0)
+                                        continue;
+                                    break;
+                                case Face.Right:
+                                    if (x != CubeSize)
+                                        continue;
+                                    break;
+                            }
+
+                            transformedCubie.Coordinate = normalisedRotation == Rotation.Clockwise ?
+                                new Coordinate(transformedCubie.Coordinate.X, CubeSize - transformedCubie.Coordinate.Z, transformedCubie.Coordinate.Y) :
+                                new Coordinate(transformedCubie.Coordinate.X, transformedCubie.Coordinate.Z, CubeSize - transformedCubie.Coordinate.Y);
+                            break;
+
+                        case Face.Front:
+                        case Face.Back:
+                            switch (cubeFace)
+                            {
+                                case Face.Front:
+                                    if (z != 0)
+                                        continue;
+                                    break;
+                                case Face.Back:
+                                    if (z != CubeSize)
+                                        continue;
+                                    break;
+                            }
+
+                            transformedCubie.Coordinate = normalisedRotation == Rotation.Clockwise ?
+                                new Coordinate(transformedCubie.Coordinate.Y, CubeSize - transformedCubie.Coordinate.X, transformedCubie.Coordinate.Z) :
+                                new Coordinate(CubeSize - transformedCubie.Coordinate.Y, transformedCubie.Coordinate.X, transformedCubie.Coordinate.Z);
+                            break;
+                    }
+
+                    transformedCubies.Add(transformedCubie);
+                }
+            }
         }
 
-        return this;
+        if (!transformedCubies.Any())
+            throw new Exception("No cubies to transform");
     }
 
     private Cubie SelectCubie(int x, int y, int z)
@@ -174,4 +199,22 @@ internal class Cube
         var cubie = Cubies.Where(c => c.Coordinate.X == x && c.Coordinate.Y == y && c.Coordinate.Z == z);
         return (Cubie)cubie.First().Clone();
     }
+
+    private static Rotation NormaliseRotation(Face cubeFace, Rotation rotation)
+    {
+        Rotation normalisedRotation = rotation;
+
+        switch (cubeFace)
+        {
+            case Face.Down:
+            case Face.Back:
+            case Face.Left:
+                normalisedRotation = rotation == Rotation.Clockwise ? Rotation.AntiClockwise : Rotation.Clockwise;
+                Debug.WriteLine($"Direction inverted to {normalisedRotation}");
+                break;
+        }
+
+        return normalisedRotation;
+    }
+
 }

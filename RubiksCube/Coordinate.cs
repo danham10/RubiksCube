@@ -1,6 +1,6 @@
 ﻿namespace RubiksCube;
 
-internal class Coordinate(int x, int y, int z) : ICloneable
+public struct Coordinate(int x, int y, int z) : ICloneable
 {
     public int X = x;
     public int Y = y;

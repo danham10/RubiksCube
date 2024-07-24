@@ -1,6 +1,6 @@
 ﻿using RubiksCube;
 
-internal class ColourFace : ICloneable
+public class ColourFace : ICloneable
 {
     public Colour Colour;
     public Face Face;
