@@ -8,9 +8,9 @@ For rotation, the cubies in a face are rotated about said face, then the cubies 
 To run the app, hit play in Visual studio, or publish the app and run the executable.
 
 Features:
-Rotation direction is "inverted" for the left, back and down faces. This means that the face is rotated in the opposite direction of the other faces.
-Output displays each face as a 3x3 matrix of the first letter of the color of each cubie.
-Cubies are deep cloned when rotating to avoid changing the original cubie, since the original cubie may itself be transformed later in the rotation.
+- Rotation direction is "inverted" for the left, back and down faces. This means that the face is rotated in the opposite direction of the other faces.
+- Output displays each face as a 3x3 matrix of the first letter of the color of each cubie.
+- Cubies are deep cloned when rotating to avoid changing the original cubie, since the original cubie may itself be transformed later in the rotation.
 
 Improvements:
 - Add logging instead of console.write
