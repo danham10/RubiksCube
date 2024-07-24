@@ -1,8 +1,7 @@
-﻿namespace RubiksCube
+﻿namespace RubiksCube;
+
+internal enum Rotation
 {
-    internal enum Rotation
-    {
-        Clockwise,
-        AntiClockwise
-    }
+    Clockwise,
+    AntiClockwise
 }

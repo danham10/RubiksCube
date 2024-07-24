@@ -1,12 +1,11 @@
-﻿namespace RubiksCube
+﻿namespace RubiksCube;
+
+internal enum Face
 {
-    internal enum Face
-    {
-        Front,
-        Up,
-        Back,
-        Left,
-        Right,
-        Down
-    }
+    Front,
+    Up,
+    Back,
+    Left,
+    Right,
+    Down
 }

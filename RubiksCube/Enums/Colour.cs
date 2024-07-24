@@ -1,12 +1,11 @@
-﻿namespace RubiksCube
+﻿namespace RubiksCube;
+
+internal enum Colour
 {
-    internal enum Colour
-    {
-        White,
-        Yellow,
-        Red,
-        Orange,
-        Blue,
-        Green
-    }
+    White,
+    Yellow,
+    Red,
+    Orange,
+    Blue,
+    Green
 }
