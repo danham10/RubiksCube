@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 
 namespace RubiksCube.Test
@@ -57,10 +58,10 @@ namespace RubiksCube.Test
                 {
                     var cubieFaceColour =
                         (from c in cube.Cubies
-                         from cv in c.CubieFaces
+                         from cf in c.CubieFaces
                          where c.Coordinate.X == x && c.Coordinate.Y == y
-                         where cv.Face == Face.Front
-                         select cv.Colour).First();
+                         where cf.Face == Face.Front
+                         select cf.Colour).First();
 
 
                     row.Append(cubieFaceColour);
@@ -71,7 +72,10 @@ namespace RubiksCube.Test
             Assert.AreEqual(expectedFront, row.ToString());
         }
 
-        private int ColourCount(List<Cubie> cubies, Face face, Colour colour) => 
-            cubies.Select(c => c.CubieFaces.Where(cv => cv.Face == face && cv.Colour == colour).First().Colour).Count();
+        private int ColourCount(List<Cubie> cubies, Face face, Colour colour) =>
+            (from c in cubies
+             from cf in c.CubieFaces
+             where cf.Face == face && cf.Colour == colour
+             select cf.Colour).Count();
     }
 }

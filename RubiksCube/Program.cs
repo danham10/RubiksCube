@@ -26,10 +26,10 @@ void DisplayCube()
         {
             var cubieFaceColour =
                 (from c in cube.Cubies
-                from cv in c.CubieFaces
+                from cf in c.CubieFaces
                 where c.Coordinate.X == x && c.Coordinate.Y == y
-                where cv.Face == Face.Front
-                select cv.Colour).First();
+                where cf.Face == Face.Front
+                select cf.Colour).First();
 
 
             row.Append(ColourChar(cubieFaceColour));
@@ -47,10 +47,10 @@ void DisplayCube()
         {
             var cubieFaceColour =
                 (from c in cube.Cubies
-                from cv in c.CubieFaces
+                from cf in c.CubieFaces
                 where c.Coordinate.Z == z && c.Coordinate.Y == y
-                where cv.Face == Face.Left
-                select cv.Colour).First();
+                where cf.Face == Face.Left
+                select cf.Colour).First();
 
             row.Append(ColourChar(cubieFaceColour));
         }
@@ -67,10 +67,10 @@ void DisplayCube()
         {
             var cubieFaceColour =
                 (from c in cube.Cubies
-                from cv in c.CubieFaces
+                from cf in c.CubieFaces
                 where c.Coordinate.Z == z && c.Coordinate.Y == y
-                where cv.Face == Face.Right
-                select cv.Colour).First();
+                where cf.Face == Face.Right
+                select cf.Colour).First();
 
             row.Append(ColourChar(cubieFaceColour));
         }
@@ -87,10 +87,10 @@ void DisplayCube()
         {
             var cubieFaceColour =
                 (from c in cube.Cubies
-                from cv in c.CubieFaces
+                from cf in c.CubieFaces
                 where c.Coordinate.X == x && c.Coordinate.Y == y
-                where cv.Face == Face.Back
-                select cv.Colour).First();
+                where cf.Face == Face.Back
+                select cf.Colour).First();
 
             row.Append(ColourChar(cubieFaceColour));
         }
@@ -107,10 +107,10 @@ void DisplayCube()
         {
             var cubieFaceColour =
                 (from c in cube.Cubies
-                from cv in c.CubieFaces
+                from cf in c.CubieFaces
                 where c.Coordinate.X == x && c.Coordinate.Z == z
-                where cv.Face == Face.Up
-                select cv.Colour).First();
+                where cf.Face == Face.Up
+                select cf.Colour).First();
 
             row.Append(ColourChar(cubieFaceColour));
         }
@@ -127,10 +127,10 @@ void DisplayCube()
         {
             var cubieFaceColour =
                 (from c in cube.Cubies
-                from cv in c.CubieFaces
+                from cf in c.CubieFaces
                 where c.Coordinate.X == x && c.Coordinate.Z == z
-                where cv.Face == Face.Down
-                select cv.Colour).First();
+                where cf.Face == Face.Down
+                select cf.Colour).First();
 
             row.Append(ColourChar(cubieFaceColour));
         }
