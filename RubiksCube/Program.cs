@@ -1,145 +1,45 @@
 ﻿using RubiksCube;
-using System.Text;
+using RubiksCube.Cube;
+using RubiksCube.Faces;
 
 var cube = new Cube();
 
-// Replicates the steps in the coding exercise
-cube.Rotate(Face.Front, Rotation.Clockwise)
-    .Rotate(Face.Right, Rotation.AntiClockwise)
-    .Rotate(Face.Up, Rotation.Clockwise)
-    .Rotate(Face.Back, Rotation.AntiClockwise)
-    .Rotate(Face.Left, Rotation.Clockwise)
-    .Rotate(Face.Down, Rotation.AntiClockwise);
+var front = new Front();
+front.Transform(cube.Cubies, Rotation.Clockwise);
 
-DisplayCube();
+var right = new Right();
+right.Transform(cube.Cubies, Rotation.AntiClockwise);
 
+var up = new Up();
+up.Transform(cube.Cubies, Rotation.Clockwise);
 
-void DisplayCube()
-{
-    StringBuilder row;
+var back = new Back();
+back.Transform(cube.Cubies, Rotation.AntiClockwise);
 
-    Console.WriteLine(Face.Front);
-    for (int y = 2; y >= 0; y--)
-    {
-        row = new StringBuilder();
-        for (int x = 0; x <= 2; x++)
-        {
-            var cubieFaceColour =
-                (from c in cube.Cubies
-                from cf in c.CubieFaces
-                where c.Coordinate.X == x && c.Coordinate.Y == y
-                where cf.Face == Face.Front
-                select cf.Colour).First();
+var left = new Left();
+left.Transform(cube.Cubies, Rotation.Clockwise);
 
+var down = new Down();
+down.Transform(cube.Cubies, Rotation.AntiClockwise);
 
-            row.Append(ColourChar(cubieFaceColour));
-        }
+Console.WriteLine(FaceName.Front);
+Console.WriteLine(front.Display(cube.Cubies));
 
-        Console.WriteLine(row);
-    }
+Console.WriteLine(FaceName.Left);
+Console.WriteLine(left.Display(cube.Cubies));
 
-    Console.WriteLine(Face.Left);
+Console.WriteLine(FaceName.Right);
+Console.WriteLine(right.Display(cube.Cubies));
 
-    for (int y = 2; y >= 0; y--)
-    {
-        row = new StringBuilder();
-        for (int z = 2; z >= 0; z--)
-        {
-            var cubieFaceColour =
-                (from c in cube.Cubies
-                from cf in c.CubieFaces
-                where c.Coordinate.Z == z && c.Coordinate.Y == y
-                where cf.Face == Face.Left
-                select cf.Colour).First();
+Console.WriteLine(FaceName.Back);
+Console.WriteLine(back.Display(cube.Cubies));
 
-            row.Append(ColourChar(cubieFaceColour));
-        }
+Console.WriteLine(FaceName.Up);
+Console.WriteLine(up.Display(cube.Cubies));
 
-        Console.WriteLine(row);
-    }
+Console.WriteLine(FaceName.Down);
+Console.WriteLine(down.Display(cube.Cubies));
 
-    Console.WriteLine(Face.Right);
-
-    for (int y = 2; y >= 0; y--)
-    {
-        row = new StringBuilder();
-        for (int z = 0; z <= 2; z++)
-        {
-            var cubieFaceColour =
-                (from c in cube.Cubies
-                from cf in c.CubieFaces
-                where c.Coordinate.Z == z && c.Coordinate.Y == y
-                where cf.Face == Face.Right
-                select cf.Colour).First();
-
-            row.Append(ColourChar(cubieFaceColour));
-        }
-
-        Console.WriteLine(row);
-    }
-
-    Console.WriteLine(Face.Back);
-
-    for (int y = 2; y >= 0; y--)
-    {
-        row = new StringBuilder();
-        for (int x = 2; x >= 0; x--)
-        {
-            var cubieFaceColour =
-                (from c in cube.Cubies
-                from cf in c.CubieFaces
-                where c.Coordinate.X == x && c.Coordinate.Y == y
-                where cf.Face == Face.Back
-                select cf.Colour).First();
-
-            row.Append(ColourChar(cubieFaceColour));
-        }
-
-        Console.WriteLine(row);
-    }
-
-    Console.WriteLine(Face.Up);
-
-    for (int z = 2; z >= 0; z--)
-    {
-        row = new StringBuilder();
-        for (int x = 0; x <= 2; x++)
-        {
-            var cubieFaceColour =
-                (from c in cube.Cubies
-                from cf in c.CubieFaces
-                where c.Coordinate.X == x && c.Coordinate.Z == z
-                where cf.Face == Face.Up
-                select cf.Colour).First();
-
-            row.Append(ColourChar(cubieFaceColour));
-        }
-
-        Console.WriteLine(row);
-    }
-
-    Console.WriteLine(Face.Down);
-
-    for (int z = 0; z <= 2; z++)
-    {
-        row = new StringBuilder();
-        for (int x = 0; x <= 2; x++)
-        {
-            var cubieFaceColour =
-                (from c in cube.Cubies
-                from cf in c.CubieFaces
-                where c.Coordinate.X == x && c.Coordinate.Z == z
-                where cf.Face == Face.Down
-                select cf.Colour).First();
-
-            row.Append(ColourChar(cubieFaceColour));
-        }
-
-        Console.WriteLine(row);
-    }
-
-    static char ColourChar(Colour cubieFaceColour) => cubieFaceColour.ToString().First();
-}
 
 
 

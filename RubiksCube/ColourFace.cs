@@ -3,15 +3,15 @@
 public class ColourFace : ICloneable
 {
     public Colour Colour;
-    public Face Face;
+    public FaceName FaceName;
 
-    public ColourFace(Colour colour, Face direction)
+    public ColourFace(Colour colour, FaceName direction)
     {
         Colour = colour;
-        Face = direction;
+        FaceName = direction;
     }
 
-    public override string ToString() => $"{Colour} {Face}";
+    public override string ToString() => $"{Colour} {FaceName}";
 
-    public object Clone() => new ColourFace(Colour, Face);
+    public object Clone() => new ColourFace(Colour, FaceName);
 }

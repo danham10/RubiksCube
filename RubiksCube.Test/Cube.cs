@@ -1,5 +1,7 @@
 using System.Security.Claims;
 using System.Text;
+using RubiksCube.Cube;
+using RubiksCube.Faces;
 
 namespace RubiksCube.Test
 {
@@ -9,7 +11,7 @@ namespace RubiksCube.Test
         [TestMethod]
         public void Initialised_cube_renders_correct_faces()
         {
-            var cube = new RubiksCube.Cube();
+            var cube = new RubiksCube.Cube.Cube();
             
             var frontCubies = cube.Cubies.Where(c => c.Coordinate.Z == 0).ToList();
             var upCubies = cube.Cubies.Where(c => c.Coordinate.Y == 2).ToList();
@@ -18,12 +20,12 @@ namespace RubiksCube.Test
             var backCubies = cube.Cubies.Where(c => c.Coordinate.Z == 2).ToList();
             var downCubies = cube.Cubies.Where(c => c.Coordinate.Y == 0).ToList();
 
-            var frontGreenCount = ColourCount(frontCubies, Face.Front, Colour.Green);
-            var upWhiteCount = ColourCount(upCubies, Face.Up, Colour.White);
-            var leftOrangeCount = ColourCount(leftCubies, Face.Left, Colour.Orange);
-            var rightRedCount = ColourCount(rightCubies, Face.Right, Colour.Red);
-            var backBlueCount = ColourCount(backCubies, Face.Back, Colour.Blue);
-            var downYellowCount = ColourCount(downCubies, Face.Down, Colour.Yellow);
+            var frontGreenCount = ColourCount(frontCubies, FaceName.Front, Colour.Green);
+            var upWhiteCount = ColourCount(upCubies, FaceName.Up, Colour.White);
+            var leftOrangeCount = ColourCount(leftCubies, FaceName.Left, Colour.Orange);
+            var rightRedCount = ColourCount(rightCubies, FaceName.Right, Colour.Red);
+            var backBlueCount = ColourCount(backCubies, FaceName.Back, Colour.Blue);
+            var downYellowCount = ColourCount(downCubies, FaceName.Down, Colour.Yellow);
 
             Assert.AreEqual(9, frontGreenCount);
             Assert.AreEqual(9, upWhiteCount);
@@ -38,19 +40,31 @@ namespace RubiksCube.Test
         {
             const string expectedFront = "OrangeRedRedOrangeGreenWhiteWhiteWhiteWhite";
 
-            var cube = new RubiksCube.Cube();
-            
+            var cube = new RubiksCube.Cube.Cube();
+
             //Rotate according to the coding challenge
-            cube.Rotate(Face.Front, Rotation.Clockwise)
-                .Rotate(Face.Right, Rotation.AntiClockwise)
-                .Rotate(Face.Up, Rotation.Clockwise)
-                .Rotate(Face.Back, Rotation.AntiClockwise)
-                .Rotate(Face.Left, Rotation.Clockwise)
-                .Rotate(Face.Down, Rotation.AntiClockwise);
+
+            var front = new Front();
+            front.Transform(cube.Cubies, Rotation.Clockwise);
+
+            var right = new Right();
+            right.Transform(cube.Cubies, Rotation.AntiClockwise);
+
+            var up = new Up();
+            up.Transform(cube.Cubies, Rotation.Clockwise);
+
+            var back = new Back();
+            back.Transform(cube.Cubies, Rotation.AntiClockwise);
+
+            var left = new Left();
+            left.Transform(cube.Cubies, Rotation.Clockwise);
+
+            var down = new Down();
+            down.Transform(cube.Cubies, Rotation.AntiClockwise);
 
             StringBuilder row = new StringBuilder();
 
-            Console.WriteLine(Face.Front);
+            Console.WriteLine(FaceName.Front);
             for (int y = 2; y >= 0; y--)
             {
                 
@@ -60,7 +74,7 @@ namespace RubiksCube.Test
                         (from c in cube.Cubies
                          from cf in c.CubieFaces
                          where c.Coordinate.X == x && c.Coordinate.Y == y
-                         where cf.Face == Face.Front
+                         where cf.FaceName == FaceName.Front
                          select cf.Colour).First();
 
 
@@ -72,10 +86,10 @@ namespace RubiksCube.Test
             Assert.AreEqual(expectedFront, row.ToString());
         }
 
-        private int ColourCount(List<Cubie> cubies, Face face, Colour colour) =>
+        private int ColourCount(List<Cubie> cubies, FaceName face, Colour colour) =>
             (from c in cubies
              from cf in c.CubieFaces
-             where cf.Face == face && cf.Colour == colour
+             where cf.FaceName == face && cf.Colour == colour
              select cf.Colour).Count();
     }
 }

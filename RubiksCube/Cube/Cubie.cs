@@ -1,4 +1,4 @@
-﻿namespace RubiksCube;
+﻿namespace RubiksCube.Cube;
 
 public class Cubie : ICloneable
 {
@@ -6,10 +6,10 @@ public class Cubie : ICloneable
     public List<ColourFace> CubieFaces;
     public Coordinate Coordinate;
 
-    public Cubie(Coordinate location, params ColourFace[] colourVertices)
+    public Cubie(Coordinate location, params ColourFace[] colourFaces)
     {
         Coordinate = location;
-        CubieFaces = [.. colourVertices];
+        CubieFaces = [.. colourFaces];
     }
 
     public object Clone()

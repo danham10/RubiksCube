@@ -1,6 +1,6 @@
 ﻿namespace RubiksCube;
 
-public enum Face
+public enum FaceName
 {
     Front,
     Up,
